@@ -1,0 +1,539 @@
+
+<!-- saved from url=(0051)file:///Users/aj1992/Downloads/pgdmib_sem2_hub.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>
+*{box-sizing:border-box;margin:0;padding:0}
+.hub{padding:1.5rem 1rem;max-width:960px;margin:0 auto;font-family:var(--font-sans)}
+.hub-header{margin-bottom:1.25rem}
+.hub-header h1{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.hub-header p{font-size:13px;color:var(--color-text-secondary);margin-top:3px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center}
+.stat-n{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.stat-l{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.topbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center}
+.topbar input{flex:1;min-width:160px;padding:7px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;background:var(--color-background-primary);color:var(--color-text-primary)}
+.topbar input:focus{outline:none;border-color:var(--color-border-primary)}
+.filter-btns{display:flex;gap:6px;flex-wrap:wrap}
+.fbtn{padding:5px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:12px;background:transparent;color:var(--color-text-secondary);cursor:pointer}
+.fbtn.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.subjects{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.scard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;transition:border-color 0.15s}
+.scard:hover{border-color:var(--color-border-secondary)}
+.scard-accent{height:3px}
+.scard-head{padding:12px 16px 8px}
+.scard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.scard-code{font-size:10px;font-weight:500;letter-spacing:0.5px;color:var(--color-text-tertiary);text-transform:uppercase}
+.credit-badge{font-size:10px;padding:2px 7px;border-radius:100px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);white-space:nowrap}
+.scard-name{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.3}
+.scard-faculty{font-size:12px;color:var(--color-text-secondary);margin-top:3px}
+.scard-body{padding:8px 16px;display:flex;gap:6px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:11px;border:0.5px solid}
+.tag-blue{background:#E6F1FB;color:#0C447C;border-color:#B5D4F4}
+.tag-amber{background:#FAEEDA;color:#854F0B;border-color:#FAC775}
+.tag-green{background:#EAF3DE;color:#3B6D11;border-color:#C0DD97}
+.tag.empty{opacity:0.4}
+.scard-foot{padding:4px 16px 10px;display:flex;align-items:center;gap:8px}
+.scard-prog-label{font-size:11px;color:var(--color-text-tertiary);min-width:28px}
+.prog-bar{height:3px;background:var(--color-background-secondary);border-radius:2px;flex:1}
+.prog-fill{height:100%;border-radius:2px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+.overlay.open{display:flex}
+.modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);width:100%;max-width:560px;position:relative;padding:20px 22px 24px;max-height:85vh;overflow-y:auto}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--color-text-secondary)}
+.modal-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+.modal-accent{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0;min-height:40px}
+.modal-code{font-size:11px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.5px}
+.modal-title{font-size:17px;font-weight:500;color:var(--color-text-primary);margin:3px 0 2px;line-height:1.3}
+.modal-faculty{font-size:12px;color:var(--color-text-secondary)}
+.modal-credit{font-size:12px;color:var(--color-text-secondary)}
+.section{margin-bottom:18px}
+.section-head{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.resource-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.resource-row:last-child{border-bottom:none}
+.res-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.res-info{flex:1;min-width:0}
+.res-name{font-size:13px;color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res-meta{font-size:11px;color:var(--color-text-tertiary)}
+.res-btn{padding:4px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:11px;background:transparent;color:var(--color-text-secondary);cursor:pointer}
+.res-btn:hover{background:var(--color-background-secondary)}
+.res-btn.danger{color:#A32D2D;border-color:#F09595}
+.add-resource{width:100%;padding:7px;border:0.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-tertiary);font-size:12px;cursor:pointer;margin-top:6px}
+.add-resource:hover{border-color:var(--color-border-primary);color:var(--color-text-secondary)}
+.exam-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.exam-item{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px}
+.exam-item-label{font-size:11px;color:var(--color-text-secondary)}
+.exam-item-val{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-top:2px}
+.how-to{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;border-left:3px solid #1D9E75;margin-bottom:18px}
+.how-to strong{font-weight:500;color:var(--color-text-primary)}
+.empty-state{font-size:12px;color:var(--color-text-tertiary);padding:6px 0}
+.ann-bar{display:flex;gap:8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;margin-bottom:1.25rem;align-items:center;font-size:13px;color:var(--color-text-secondary)}
+.ann-bar span{flex:1}
+.ann-bar button{padding:4px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:12px;background:transparent;color:var(--color-text-secondary);cursor:pointer}
+</style>
+
+</head><body><h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">PGDMIB Semester II — Subject Resource Hub</h2>
+
+<div class="hub">
+  <div class="hub-header">
+    <h1>PGDMIB · Semester II — Batch Hub</h1>
+    <p>IIFT · 10 subjects · 22 credits · Master resource repository</p>
+  </div>
+
+  <div class="ann-bar">
+    <span id="ann-text">📢 Master Repository for Semester 2</span>
+    <button onclick="editAnn()">Edit</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">10</div><div class="stat-l">Subjects</div></div>
+    <div class="stat"><div class="stat-n">22</div><div class="stat-l">Total credits</div></div>
+    <div class="stat"><div class="stat-n" id="s-resources">0</div><div class="stat-l">Resources added</div></div>
+    <div class="stat"><div class="stat-n" id="s-complete">0%</div><div class="stat-l">Subjects complete</div></div>
+  </div>
+
+  <div class="topbar">
+    <input type="text" id="search" placeholder="Search subjects..." oninput="renderCards()">
+    <div class="filter-btns">
+      <button class="fbtn active" onclick="setFilter(&#39;all&#39;,this)">All</button>
+      <button class="fbtn" onclick="setFilter(&#39;pending&#39;,this)">Needs material</button>
+      <button class="fbtn" onclick="setFilter(&#39;ready&#39;,this)">Has material</button>
+    </div>
+  </div>
+
+  <div class="subjects" id="subjects-grid"><div class="scard" onclick="openSubject(1)">
+      <div class="scard-accent" style="background:#378ADD"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 1</div>
+          <span class="credit-badge">3 credits</span>
+        </div>
+        <div class="scard-name">Financial Management</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#378ADD"></div></div>
+      </div>
+    </div><div class="scard" onclick="openSubject(2)">
+      <div class="scard-accent" style="background:#1D9E75"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 2</div>
+          <span class="credit-badge">2 credits</span>
+        </div>
+        <div class="scard-name">Data Analytics</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#1D9E75"></div></div>
+      </div>
+    </div><div class="scard" onclick="openSubject(3)">
+      <div class="scard-accent" style="background:#EF9F27"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 3</div>
+          <span class="credit-badge">2 credits</span>
+        </div>
+        <div class="scard-name">International Economics</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#EF9F27"></div></div>
+      </div>
+    </div><div class="scard" onclick="openSubject(4)">
+      <div class="scard-accent" style="background:#7F77DD"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 4</div>
+          <span class="credit-badge">3 credits</span>
+        </div>
+        <div class="scard-name">Strategic Management</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#7F77DD"></div></div>
+      </div>
+    </div><div class="scard" onclick="openSubject(5)">
+      <div class="scard-accent" style="background:#D85A30"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 5</div>
+          <span class="credit-badge">2 credits</span>
+        </div>
+        <div class="scard-name">Human Resource Management</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#D85A30"></div></div>
+      </div>
+    </div><div class="scard" onclick="openSubject(6)">
+      <div class="scard-accent" style="background:#97C459"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 6</div>
+          <span class="credit-badge">3 credits</span>
+        </div>
+        <div class="scard-name">Supply Chain Management</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#97C459"></div></div>
+      </div>
+    </div><div class="scard" onclick="openSubject(7)">
+      <div class="scard-accent" style="background:#ED93B1"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 7</div>
+          <span class="credit-badge">2 credits</span>
+        </div>
+        <div class="scard-name">Business Research Methods</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#ED93B1"></div></div>
+      </div>
+    </div><div class="scard" onclick="openSubject(8)">
+      <div class="scard-accent" style="background:#5DCAA5"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 8</div>
+          <span class="credit-badge">2 credits</span>
+        </div>
+        <div class="scard-name">International Marketing Management</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#5DCAA5"></div></div>
+      </div>
+    </div><div class="scard" onclick="openSubject(9)">
+      <div class="scard-accent" style="background:#FAC775"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 9</div>
+          <span class="credit-badge">1 credit</span>
+        </div>
+        <div class="scard-name">Research Project</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#FAC775"></div></div>
+      </div>
+    </div><div class="scard" onclick="openSubject(10)">
+      <div class="scard-accent" style="background:#97C459"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject 10</div>
+          <span class="credit-badge">2 credits</span>
+        </div>
+        <div class="scard-name">Foreign Language</div>
+        <div class="scard-faculty">Prof. TBD</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue empty">📄 0 materials</span>
+        <span class="tag tag-amber empty">📝 0 PYQs</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">5%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:5%;background:#97C459"></div></div>
+      </div>
+    </div></div>
+</div>
+
+<div class="overlay" id="overlay" onclick="maybeClose(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeOverlay()">✕</button>
+    <div id="modal-content">
+    <div class="modal-top">
+      <div class="modal-accent" style="background:#D85A30"></div>
+      <div style="flex:1">
+        <div class="modal-code">Subject 5 · 2 credits</div>
+        <div class="modal-title">Human Resource Management</div>
+        <div style="display:flex;gap:12px;align-items:center;margin-top:4px">
+          <div class="modal-faculty">Faculty: <span id="fac-disp">Prof. TBD</span></div>
+          <button onclick="editFaculty(5)" style="background:none;border:none;font-size:11px;color:var(--color-text-tertiary);cursor:pointer;padding:0">[edit]</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="how-to">
+      <strong>How to add material:</strong> Upload PDF to Google Drive → Share → "Anyone with link can view" → Copy link → paste below.
+    </div>
+
+    <div class="section">
+      <div class="section-head">Exam pattern</div>
+      <div class="exam-grid">
+        <div class="exam-item"><div class="exam-item-label">Type</div><div class="exam-item-val">Written</div></div>
+        <div class="exam-item"><div class="exam-item-label">Duration</div><div class="exam-item-val">2 hrs</div></div>
+        <div class="exam-item"><div class="exam-item-label">Total marks</div><div class="exam-item-val">100</div></div>
+        <div class="exam-item" style="grid-column:1/-1"><div class="exam-item-label">Marks breakup</div><div class="exam-item-val" style="font-size:13px">Short notes (40) + Long answers (60)</div></div>
+      </div>
+      <button class="add-resource" style="margin-top:8px" onclick="editPattern(5)">✏️ Update exam pattern</button>
+    </div>
+
+    <div class="section">
+      <div class="section-head">Study material (0)</div>
+      <div id="res-list"><div class="empty-state">Nothing added yet.</div></div>
+      <button class="add-resource" onclick="addItem(5,&#39;res&#39;)">+ Add study material / Google Drive link</button>
+    </div>
+
+    <div class="section">
+      <div class="section-head">Past year question papers (0)</div>
+      <div id="pyq-list"><div class="empty-state">Nothing added yet.</div></div>
+      <button class="add-resource" onclick="addItem(5,&#39;pyq&#39;)">+ Add PYQ / previous exam paper</button>
+    </div>
+  </div>
+  </div>
+</div>
+
+<script>
+const COLORS = ['#185FA5','#1D9E75','#BA7517','#533AB7','#D85A30','#3B6D11','#993556','#0F6E56','#854F0B','#639922'];
+const ACCENTS = ['#378ADD','#1D9E75','#EF9F27','#7F77DD','#D85A30','#97C459','#ED93B1','#5DCAA5','#FAC775','#97C459'];
+
+const DEFAULT_SUBJECTS = [
+  {id:1,sno:1,name:"Financial Management",credits:3,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Written",duration:"3 hrs",marks:"100",pattern:"Section A: Short notes (40) + Section B: Long answers (60)"}},
+  {id:2,sno:2,name:"Data Analytics",credits:2,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Written + Lab",duration:"2 hrs",marks:"100",pattern:"Theory (50) + Practical/Case (50)"}},
+  {id:3,sno:3,name:"International Economics",credits:2,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Written",duration:"2 hrs",marks:"100",pattern:"MCQs (20) + Descriptive (80)"}},
+  {id:4,sno:4,name:"Strategic Management",credits:3,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Written + Case",duration:"3 hrs",marks:"100",pattern:"Case Study (40) + Theory (60)"}},
+  {id:5,sno:5,name:"Human Resource Management",credits:2,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Written",duration:"2 hrs",marks:"100",pattern:"Short notes (40) + Long answers (60)"}},
+  {id:6,sno:6,name:"Supply Chain Management",credits:3,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Written",duration:"3 hrs",marks:"100",pattern:"Section A (40) + Case Study (60)"}},
+  {id:7,sno:7,name:"Business Research Methods",credits:2,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Written + Project",duration:"2 hrs",marks:"100",pattern:"Theory (60) + Project/Assignment (40)"}},
+  {id:8,sno:8,name:"International Marketing Management",credits:2,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Written",duration:"2 hrs",marks:"100",pattern:"Theory (60) + Caselet (40)"}},
+  {id:9,sno:9,name:"Research Project",credits:1,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Viva + Report",duration:"–",marks:"100",pattern:"Report (60) + Presentation & Viva (40)"}},
+  {id:10,sno:10,name:"Foreign Language",credits:2,faculty:"Prof. TBD",resources:[],pyqs:[],examPattern:{type:"Written + Oral",duration:"1.5 hrs",marks:"100",pattern:"Written (70) + Oral (30)"}}
+];
+
+let subjects;
+try {
+  const saved = localStorage.getItem('pgdmib_s2_v3');
+  subjects = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
+} catch(e){ subjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS)); }
+
+let filter = 'all';
+
+function save(){
+  try{ localStorage.setItem('pgdmib_s2_v3', JSON.stringify(subjects)); }catch(e){}
+  updateStats();
+}
+
+function updateStats(){
+  const total = subjects.reduce((a,s)=>a+s.resources.length+s.pyqs.length,0);
+  const complete = subjects.filter(s=>s.resources.length>0&&s.pyqs.length>0).length;
+  document.getElementById('s-resources').textContent = total;
+  document.getElementById('s-complete').textContent = Math.round(complete/subjects.length*100)+'%';
+}
+
+function setFilter(f,btn){
+  filter=f;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards();
+}
+
+function renderCards(){
+  const q = (document.getElementById('search').value||'').toLowerCase();
+  const grid = document.getElementById('subjects-grid');
+  const filtered = subjects.filter(s=>{
+    const mq = !q||s.name.toLowerCase().includes(q)||s.faculty.toLowerCase().includes(q);
+    const mf = filter==='all'||(filter==='pending'&&s.resources.length===0)||(filter==='ready'&&s.resources.length>0);
+    return mq&&mf;
+  });
+  grid.innerHTML = filtered.map(s=>{
+    const ci = s.id-1;
+    const prog = Math.min(100,s.resources.length*20+s.pyqs.length*15+(s.examPattern.pattern?5:0));
+    const pfill = prog===0?'#D3D1C7':ACCENTS[ci];
+    return `<div class="scard" onclick="openSubject(${s.id})">
+      <div class="scard-accent" style="background:${ACCENTS[ci]}"></div>
+      <div class="scard-head">
+        <div class="scard-top">
+          <div class="scard-code">Subject ${s.sno}</div>
+          <span class="credit-badge">${s.credits} credit${s.credits>1?'s':''}</span>
+        </div>
+        <div class="scard-name">${s.name}</div>
+        <div class="scard-faculty">${s.faculty}</div>
+      </div>
+      <div class="scard-body">
+        <span class="tag tag-blue ${s.resources.length===0?'empty':''}">📄 ${s.resources.length} material${s.resources.length!==1?'s':''}</span>
+        <span class="tag tag-amber ${s.pyqs.length===0?'empty':''}">📝 ${s.pyqs.length} PYQ${s.pyqs.length!==1?'s':''}</span>
+        <span class="tag tag-green">📋 Pattern</span>
+      </div>
+      <div class="scard-foot">
+        <span class="scard-prog-label" style="font-size:11px;color:var(--color-text-tertiary)">${prog}%</span>
+        <div class="prog-bar"><div class="prog-fill" style="width:${prog}%;background:${pfill}"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openSubject(id){
+  const s = subjects.find(x=>x.id===id);
+  const ci = id-1;
+  const modal = document.getElementById('modal-content');
+  modal.innerHTML = `
+    <div class="modal-top">
+      <div class="modal-accent" style="background:${ACCENTS[ci]}"></div>
+      <div style="flex:1">
+        <div class="modal-code">Subject ${s.sno} · ${s.credits} credit${s.credits>1?'s':''}</div>
+        <div class="modal-title">${s.name}</div>
+        <div style="display:flex;gap:12px;align-items:center;margin-top:4px">
+          <div class="modal-faculty">Faculty: <span id="fac-disp">${s.faculty}</span></div>
+          <button onclick="editFaculty(${id})" style="background:none;border:none;font-size:11px;color:var(--color-text-tertiary);cursor:pointer;padding:0">[edit]</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="how-to">
+      <strong>How to add material:</strong> Upload PDF to Google Drive → Share → "Anyone with link can view" → Copy link → paste below.
+    </div>
+
+    <div class="section">
+      <div class="section-head">Exam pattern</div>
+      <div class="exam-grid">
+        <div class="exam-item"><div class="exam-item-label">Type</div><div class="exam-item-val">${s.examPattern.type}</div></div>
+        <div class="exam-item"><div class="exam-item-label">Duration</div><div class="exam-item-val">${s.examPattern.duration}</div></div>
+        <div class="exam-item"><div class="exam-item-label">Total marks</div><div class="exam-item-val">${s.examPattern.marks}</div></div>
+        <div class="exam-item" style="grid-column:1/-1"><div class="exam-item-label">Marks breakup</div><div class="exam-item-val" style="font-size:13px">${s.examPattern.pattern}</div></div>
+      </div>
+      <button class="add-resource" style="margin-top:8px" onclick="editPattern(${id})">✏️ Update exam pattern</button>
+    </div>
+
+    <div class="section">
+      <div class="section-head">Study material (${s.resources.length})</div>
+      <div id="res-list">${renderResList(s,'res')}</div>
+      <button class="add-resource" onclick="addItem(${id},'res')">+ Add study material / Google Drive link</button>
+    </div>
+
+    <div class="section">
+      <div class="section-head">Past year question papers (${s.pyqs.length})</div>
+      <div id="pyq-list">${renderResList(s,'pyq')}</div>
+      <button class="add-resource" onclick="addItem(${id},'pyq')">+ Add PYQ / previous exam paper</button>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+
+function renderResList(s,kind){
+  const arr = kind==='res'?s.resources:s.pyqs;
+  if(!arr.length) return `<div class="empty-state">Nothing added yet.</div>`;
+  return arr.map((r,i)=>`<div class="resource-row">
+    <div class="res-icon" style="background:${kind==='res'?'#E6F1FB':'#FAEEDA'}">${kind==='res'?'📄':'📝'}</div>
+    <div class="res-info">
+      <div class="res-name">${r.name}</div>
+      <div class="res-meta">${r.meta||''}</div>
+    </div>
+    ${r.link?`<a href="${r.link}" target="_blank" style="text-decoration:none"><button class="res-btn">Open ↗</button></a>`:''}
+    <button class="res-btn danger" onclick="removeItem(${s.id},${i},'${kind}')">✕</button>
+  </div>`).join('');
+}
+
+function addItem(id,kind){
+  const isRes = kind==='res';
+  const name = prompt(isRes?'Material name (e.g. "Unit 2 — Porter\'s Five Forces Notes"):':'PYQ name (e.g. "End-term 2023-24"):');
+  if(!name) return;
+  const link = prompt('Paste Google Drive link (or leave blank and press OK):');
+  const by = prompt('Added by:') || 'CR';
+  const s = subjects.find(x=>x.id===id);
+  if(isRes){
+    const topic = prompt('Topic / unit (optional):') || '';
+    s.resources.push({name,link:link||'',meta:`By ${by}${topic?' · '+topic:''}`});
+  } else {
+    const year = prompt('Year (e.g. 2023-24):') || '–';
+    s.pyqs.push({name,link:link||'',meta:`${year} · By ${by}`});
+  }
+  save();
+  openSubject(id);
+  renderCards();
+}
+
+function removeItem(id,i,kind){
+  if(!confirm('Remove this item?')) return;
+  const s = subjects.find(x=>x.id===id);
+  if(kind==='res') s.resources.splice(i,1);
+  else s.pyqs.splice(i,1);
+  save();
+  openSubject(id);
+  renderCards();
+}
+
+function editFaculty(id){
+  const s = subjects.find(x=>x.id===id);
+  const n = prompt('Faculty name:',s.faculty);
+  if(n){s.faculty=n;save();openSubject(id);renderCards();}
+}
+
+function editPattern(id){
+  const s = subjects.find(x=>x.id===id);
+  const ep = s.examPattern;
+  const type = prompt('Exam type:',ep.type); if(type===null) return;
+  const dur = prompt('Duration:',ep.duration); if(dur===null) return;
+  const marks = prompt('Total marks:',ep.marks); if(marks===null) return;
+  const pattern = prompt('Marks breakup:',ep.pattern); if(pattern===null) return;
+  s.examPattern={type,duration:dur,marks,pattern};
+  save();openSubject(id);
+}
+
+function editAnn(){
+  const t = prompt('Edit announcement:',document.getElementById('ann-text').textContent);
+  if(t) document.getElementById('ann-text').textContent=t;
+}
+
+function closeOverlay(){document.getElementById('overlay').classList.remove('open');}
+function maybeClose(e){if(e.target===document.getElementById('overlay'))closeOverlay();}
+
+updateStats();
+renderCards();
+</script>
+</body></html>
