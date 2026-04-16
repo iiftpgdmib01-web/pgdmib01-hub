@@ -122,9 +122,9 @@
   <div class="topbar">
     <input type="text" id="search" placeholder="Search subjects..." oninput="renderCards()">
     <div class="filter-btns">
-      <button class="fbtn active" onclick="setFilter(&#39;all&#39;,this)">All</button>
-      <button class="fbtn" onclick="setFilter(&#39;pending&#39;,this)">Needs material</button>
-      <button class="fbtn" onclick="setFilter(&#39;ready&#39;,this)">Has material</button>
+      <button class="fbtn active" onclick="setFilter('all',this)">All</button>
+      <button class="fbtn" onclick="setFilter('pending',this)">Needs material</button>
+      <button class="fbtn" onclick="setFilter('ready',this)">Has material</button>
     </div>
   </div>
 
@@ -358,9 +358,9 @@
       <div class="res-meta">By AJ</div>
     </div>
     <a href="https://drive.google.com/drive/u/1/folders/19r-G267AS-FHsIchTtzAEymr9ta8NYBK" target="_blank" style="text-decoration:none"><button class="res-btn">Open ↗</button></a>
-    <button class="res-btn danger" onclick="removeItem(6,0,&#39;res&#39;)">✕</button>
+    <button class="res-btn danger" onclick="removeItem(6,0,'res')">✕</button>
   </div></div>
-      <button class="add-resource" onclick="addItem(6,&#39;res&#39;)">+ Add study material / Google Drive link</button>
+      <button class="add-resource" onclick="addItem(6,'res')">+ Add study material / Google Drive link</button>
     </div>
     <div class="section">
       <div class="section-head">Past year question papers (1)</div>
@@ -371,9 +371,9 @@
       <div class="res-meta">24-25 · By AJ</div>
     </div>
     <a href="https://drive.google.com/drive/folders/1UhU1iEt3k3RZEeowXH2gdbT-a3pPs4fA?usp=drive_link" target="_blank" style="text-decoration:none"><button class="res-btn">Open ↗</button></a>
-    <button class="res-btn danger" onclick="removeItem(6,0,&#39;pyq&#39;)">✕</button>
+    <button class="res-btn danger" onclick="removeItem(6,0,'pyq')">✕</button>
   </div></div>
-      <button class="add-resource" onclick="addItem(6,&#39;pyq&#39;)">+ Add PYQ / previous exam paper</button>
+      <button class="add-resource" onclick="addItem(6,'pyq')">+ Add PYQ / previous exam paper</button>
     </div>
   </div>
   </div>
