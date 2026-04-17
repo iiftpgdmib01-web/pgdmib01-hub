@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- saved from url=(0052)file:///Users/aj1992/Downloads/pgdmib_batch_hub.html -->
-<html lang="en"><head>
-<meta charset="UTF-8">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PGDMIB Batch Hub — Semester II</title>
 <style>
@@ -46,6 +46,14 @@
   .filter-btns { display: flex; gap: 6px; flex-wrap: wrap; }
   .fbtn { padding: 5px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); font-size: 12px; background: transparent; color: var(--color-text-secondary); cursor: pointer; }
   .fbtn.active { background: var(--color-background-primary); color: var(--color-text-primary); border-color: var(--color-border-primary); }
+  .sync-bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); margin-bottom: 1.25rem; font-size: 12px; color: var(--color-text-secondary); }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #D3D1C7; flex-shrink: 0; }
+  .sync-dot.syncing { background: #BA7517; animation: pulse 1s infinite; }
+  .sync-dot.ok { background: #1D9E75; }
+  .sync-dot.err { background: #A32D2D; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .sync-btn { margin-left: auto; padding: 4px 10px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: transparent; color: var(--color-text-secondary); font-size: 11px; cursor: pointer; }
+  .sync-btn:hover { background: var(--color-background-secondary); }
   .subjects { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
   .scard { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; cursor: pointer; transition: border-color 0.15s; }
   .scard:hover { border-color: var(--color-border-secondary); }
@@ -77,13 +85,18 @@
   .modal-meta-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 2px; }
   .modal-examdate { font-size: 11px; color: var(--color-text-tertiary); background: var(--color-background-secondary); padding: 2px 8px; border-radius: 100px; border: 0.5px solid var(--color-border-tertiary); }
   .section { margin-bottom: 18px; }
-  .section-head { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .section-head { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; justify-content: space-between; }
+  .section-badge { font-size: 10px; padding: 1px 7px; border-radius: 100px; background: #E6F1FB; color: #0C447C; border: 0.5px solid #B5D4F4; font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .section-badge.pyq { background: #FAEEDA; color: #854F0B; border-color: #FAC775; }
   .resource-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
   .resource-row:last-child { border-bottom: none; }
   .res-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
   .res-info { flex: 1; min-width: 0; }
   .res-name { font-size: 13px; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .res-meta { font-size: 11px; color: var(--color-text-tertiary); }
+  .res-source { font-size: 10px; padding: 1px 6px; border-radius: 100px; border: 0.5px solid; display: inline-block; margin-top: 2px; }
+  .res-source.sheet { background: #EAF3DE; color: #3B6D11; border-color: #C0DD97; }
+  .res-source.local { background: var(--color-background-secondary); color: var(--color-text-tertiary); border-color: var(--color-border-tertiary); }
   .res-btn { padding: 4px 10px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); font-size: 11px; background: transparent; color: var(--color-text-secondary); cursor: pointer; white-space: nowrap; }
   .res-btn:hover { background: var(--color-background-secondary); }
   .res-btn.danger { color: #A32D2D; border-color: #F09595; }
@@ -94,6 +107,8 @@
   .exam-item.full { grid-column: 1 / -1; }
   .exam-item-label { font-size: 11px; color: var(--color-text-secondary); }
   .exam-item-val { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-top: 2px; line-height: 1.5; }
+  .sheet-info { background: #EAF3DE; border-radius: var(--border-radius-md); padding: 10px 14px; font-size: 12px; color: #3B6D11; line-height: 1.6; border-left: 3px solid #1D9E75; margin-bottom: 18px; }
+  .sheet-info strong { font-weight: 500; }
   .how-to { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; border-left: 3px solid #1D9E75; margin-bottom: 18px; }
   .how-to strong { font-weight: 500; color: var(--color-text-primary); }
   .empty-state { font-size: 12px; color: var(--color-text-tertiary); padding: 6px 0; }
@@ -106,6 +121,8 @@
   .ann-bar button { padding: 4px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); font-size: 12px; background: transparent; color: var(--color-text-secondary); cursor: pointer; }
   .elink { background: none; border: none; font-size: 11px; color: var(--color-text-tertiary); cursor: pointer; padding: 0; }
   .urgent { color: #A32D2D; font-weight: 500; }
+  .loading-spinner { display: inline-block; width: 10px; height: 10px; border: 1.5px solid var(--color-border-secondary); border-top-color: #1D9E75; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -114,16 +131,25 @@
     <h1>PGDMIB · Semester II — Batch Hub</h1>
     <p>IIFT · 10 subjects · 22 credits · Master resource repository</p>
   </div>
+
   <div class="ann-bar">
     <span id="ann-text">📢 PGDMIB01 Master Hub - an initiative by CRs</span>
     <button onclick="editAnn()">Edit</button>
   </div>
+
+  <div class="sync-bar">
+    <div class="sync-dot ok" id="sync-dot"></div>
+    <span id="sync-status">Synced from Google Sheets · Last updated 07:14 PM · 16 entries</span>
+    <button class="sync-btn" onclick="fetchFromSheet()">↻ Refresh</button>
+  </div>
+
   <div class="stats">
     <div class="stat"><div class="stat-n" id="s-subjects">10</div><div class="stat-l">Subjects</div></div>
     <div class="stat"><div class="stat-n">22</div><div class="stat-l">Total credits</div></div>
-    <div class="stat"><div class="stat-n" id="s-resources">14</div><div class="stat-l">Resources added</div></div>
+    <div class="stat"><div class="stat-n" id="s-resources">16</div><div class="stat-l">Resources added</div></div>
     <div class="stat"><div class="stat-n" id="s-complete">50%</div><div class="stat-l">Subjects complete</div></div>
   </div>
+
   <div class="topbar">
     <input type="text" id="search" placeholder="Search subjects, faculty..." oninput="renderCards()">
     <div class="filter-btns">
@@ -132,172 +158,346 @@
       <button class="fbtn" onclick="setFilter('ready',this)">Has material</button>
     </div>
   </div>
-  <div class="subjects" id="subjects-grid"><div class="scard" onclick="openSubject(1)"><div class="scard-accent" style="background:#378ADD"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 1</div><span class="credit-badge">3 credits</span></div><div class="scard-name">Financial Management</div><div class="scard-faculty">Dr. Mikhlesh Yadav</div><div class="scard-examdate">📅 24 May 2026 (Sunday), 38 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber empty">📝 0 PYQs</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">25%</span><div class="prog-bar"><div class="prog-fill" style="width:25%;background:#378ADD"></div></div></div></div><div class="scard" onclick="openSubject(2)"><div class="scard-accent" style="background:#1D9E75"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 2</div><span class="credit-badge">2 credits</span></div><div class="scard-name">Data Analytics</div><div class="scard-faculty">Dr. O. P. Wali</div><div class="scard-examdate">📅 30 May 2026 (Saturday), 44 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber ">📝 1 PYQ</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">40%</span><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#1D9E75"></div></div></div></div><div class="scard" onclick="openSubject(3)"><div class="scard-accent" style="background:#EF9F27"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 3</div><span class="credit-badge">2 credits</span></div><div class="scard-name">International Economics</div><div class="scard-faculty">Dr. Biswajit Nag</div><div class="scard-examdate">📅 23 May 2026 (Saturday), 37 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber ">📝 1 PYQ</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">40%</span><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#EF9F27"></div></div></div></div><div class="scard" onclick="openSubject(4)"><div class="scard-accent" style="background:#7F77DD"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 4</div><span class="credit-badge">3 credits</span></div><div class="scard-name">Strategic Management</div><div class="scard-faculty">Mr. Sandeep Nagpal</div><div class="scard-examdate">📅 17 May 2026 (Sunday), 31 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber empty">📝 0 PYQs</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">25%</span><div class="prog-bar"><div class="prog-fill" style="width:25%;background:#7F77DD"></div></div></div></div><div class="scard" onclick="openSubject(5)"><div class="scard-accent" style="background:#D85A30"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 5</div><span class="credit-badge">2 credits</span></div><div class="scard-name">Human Resource Management</div><div class="scard-faculty">Dr. Priyanka Jaiswal</div><div class="scard-examdate">📅 10 May 2026 (Sunday), 24 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber empty">📝 0 PYQs</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">25%</span><div class="prog-bar"><div class="prog-fill" style="width:25%;background:#D85A30"></div></div></div></div><div class="scard" onclick="openSubject(6)"><div class="scard-accent" style="background:#97C459"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 6</div><span class="credit-badge">3 credits</span></div><div class="scard-name">Supply Chain Management</div><div class="scard-faculty">Dr. Sonu Verma</div><div class="scard-examdate">📅 31 May 2026 (Sunday), 45 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber ">📝 1 PYQ</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">40%</span><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#97C459"></div></div></div></div><div class="scard" onclick="openSubject(7)"><div class="scard-accent" style="background:#ED93B1"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 7</div><span class="credit-badge">2 credits</span></div><div class="scard-name">Business Research Methods</div><div class="scard-faculty">Dr. Pradeep Pai</div><div class="scard-examdate">📅 16 May 2026 (Saturday), 30 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber ">📝 1 PYQ</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">40%</span><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#ED93B1"></div></div></div></div><div class="scard" onclick="openSubject(8)"><div class="scard-accent" style="background:#5DCAA5"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 8</div><span class="credit-badge">2 credits</span></div><div class="scard-name">International Marketing Management</div><div class="scard-faculty">Mr. Kumar Biswas</div><div class="scard-examdate">📅 09 May 2026 (Saturday), 23 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber ">📝 1 PYQ</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">40%</span><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#5DCAA5"></div></div></div></div><div class="scard" onclick="openSubject(9)"><div class="scard-accent" style="background:#FAC775"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 9</div><span class="credit-badge">2 credits</span></div><div class="scard-name">Spanish</div><div class="scard-faculty">Srishti Dangyach</div><div class="scard-examdate">📅 17 May 2026 (Sunday), 31 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber empty">📝 0 PYQs</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">25%</span><div class="prog-bar"><div class="prog-fill" style="width:25%;background:#FAC775"></div></div></div></div><div class="scard" onclick="openSubject(10)"><div class="scard-accent" style="background:#639922"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 10</div><span class="credit-badge">2 credits</span></div><div class="scard-name">German</div><div class="scard-faculty">Prof. TBD</div><div class="scard-examdate">📅 17 May 2026 (Sunday), 31 days left</div></div><div class="scard-body"><span class="tag tag-blue empty">📄 0 materials</span><span class="tag tag-amber empty">📝 0 PYQs</span><span class="tag tag-green">📋 Pattern</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">5%</span><div class="prog-bar"><div class="prog-fill" style="width:5%;background:#639922"></div></div></div></div></div>
+
+  <div class="subjects" id="subjects-grid"><div class="scard" onclick="openSubject(1)"><div class="scard-accent" style="background:#378ADD"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 1</div><span class="credit-badge">3 credits</span></div><div class="scard-name">Financial Management</div><div class="scard-faculty">Dr. Miklesh Yadav</div><div class="scard-examdate">📅 24 May 2026 (Sunday), 37 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber empty">📝 0 PYQs</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">25%</span><div class="prog-bar"><div class="prog-fill" style="width:25%;background:#378ADD"></div></div></div></div><div class="scard" onclick="openSubject(2)"><div class="scard-accent" style="background:#1D9E75"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 2</div><span class="credit-badge">2 credits</span></div><div class="scard-name">Data Analytics</div><div class="scard-faculty">Dr. O. P. Wali</div><div class="scard-examdate">📅 30 May 2026 (Saturday), 43 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 2 materials</span><span class="tag tag-amber ">📝 1 PYQ</span><span class="tag tag-green">📊 1 from sheet</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">60%</span><div class="prog-bar"><div class="prog-fill" style="width:60%;background:#1D9E75"></div></div></div></div><div class="scard" onclick="openSubject(3)"><div class="scard-accent" style="background:#EF9F27"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 3</div><span class="credit-badge">2 credits</span></div><div class="scard-name">International Economics</div><div class="scard-faculty">Dr. Biswajit Nag</div><div class="scard-examdate">📅 23 May 2026 (Saturday), 36 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber ">📝 1 PYQ</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">40%</span><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#EF9F27"></div></div></div></div><div class="scard" onclick="openSubject(4)"><div class="scard-accent" style="background:#7F77DD"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 4</div><span class="credit-badge">3 credits</span></div><div class="scard-name">Strategic Management</div><div class="scard-faculty">Mr. Sandeep Nagpal</div><div class="scard-examdate">📅 17 May 2026 (Sunday), 30 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber empty">📝 0 PYQs</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">25%</span><div class="prog-bar"><div class="prog-fill" style="width:25%;background:#7F77DD"></div></div></div></div><div class="scard" onclick="openSubject(5)"><div class="scard-accent" style="background:#D85A30"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 5</div><span class="credit-badge">2 credits</span></div><div class="scard-name">Human Resource Management</div><div class="scard-faculty">Dr. Priyanka Jaiswal</div><div class="scard-examdate">📅 10 May 2026 (Sunday), 23 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber empty">📝 0 PYQs</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">25%</span><div class="prog-bar"><div class="prog-fill" style="width:25%;background:#D85A30"></div></div></div></div><div class="scard" onclick="openSubject(6)"><div class="scard-accent" style="background:#97C459"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 6</div><span class="credit-badge">3 credits</span></div><div class="scard-name">Supply Chain Management</div><div class="scard-faculty">Dr. Sonu Verma</div><div class="scard-examdate">📅 31 May 2026 (Sunday), 44 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber ">📝 1 PYQ</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">40%</span><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#97C459"></div></div></div></div><div class="scard" onclick="openSubject(7)"><div class="scard-accent" style="background:#ED93B1"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 7</div><span class="credit-badge">2 credits</span></div><div class="scard-name">Business Research Methods</div><div class="scard-faculty">Dr. Pradeep Pai</div><div class="scard-examdate">📅 16 May 2026 (Saturday), 29 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber ">📝 1 PYQ</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">40%</span><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#ED93B1"></div></div></div></div><div class="scard" onclick="openSubject(8)"><div class="scard-accent" style="background:#5DCAA5"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 8</div><span class="credit-badge">2 credits</span></div><div class="scard-name">International Marketing Management</div><div class="scard-faculty">Mr. Kumar Biswas</div><div class="scard-examdate">📅 09 May 2026 (Saturday), 22 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber ">📝 2 PYQs</span><span class="tag tag-green">📊 1 from sheet</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">55%</span><div class="prog-bar"><div class="prog-fill" style="width:55%;background:#5DCAA5"></div></div></div></div><div class="scard" onclick="openSubject(9)"><div class="scard-accent" style="background:#FAC775"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 9</div><span class="credit-badge">2 credits</span></div><div class="scard-name">Spanish</div><div class="scard-faculty">Ms. Srishti Dangayach</div><div class="scard-examdate">📅 17 May 2026 (Sunday), 30 days left</div></div><div class="scard-body"><span class="tag tag-blue ">📄 1 material</span><span class="tag tag-amber empty">📝 0 PYQs</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">25%</span><div class="prog-bar"><div class="prog-fill" style="width:25%;background:#FAC775"></div></div></div></div><div class="scard" onclick="openSubject(10)"><div class="scard-accent" style="background:#639922"></div><div class="scard-head"><div class="scard-top"><div class="scard-code">Subject 10</div><span class="credit-badge">2 credits</span></div><div class="scard-name">German</div><div class="scard-faculty">Prof. TBD</div><div class="scard-examdate">📅 17 May 2026 (Sunday), 30 days left</div></div><div class="scard-body"><span class="tag tag-blue empty">📄 0 materials</span><span class="tag tag-amber empty">📝 0 PYQs</span></div><div class="scard-foot"><span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">5%</span><div class="prog-bar"><div class="prog-fill" style="width:5%;background:#639922"></div></div></div></div></div>
 </div>
 
 <div class="overlay" id="overlay" onclick="maybeClose(event)">
-  <div class="modal" id="modal">
+  <div class="modal" id="modal" data-open-id="2">
     <button class="modal-close" onclick="closeOverlay()">✕</button>
-    <div id="modal-content"><div class="modal-top"><div class="modal-accent" style="background:#EF9F27"></div><div style="flex:1"><div class="modal-code">Subject 3 · 2 credits</div><div class="modal-title">International Economics</div><div class="modal-meta-row"><span style="font-size:12px;color:var(--color-text-secondary)">Dr. Biswajit Nag <button class="elink" onclick="editFaculty(3)">[edit]</button></span><span class="modal-examdate">📅 23 May 2026 (Saturday), 37 days left</span></div></div></div><div class="section"><div class="section-head">Faculty contact</div><div class="contact-row"><span class="contact-label">Email</span><span class="contact-val empty">biswajit@iift.edu</span><button class="res-btn" onclick="editEmail(3)">✏ Edit</button></div></div><div class="how-to"><strong>How to add material:</strong> Upload PDF to Google Drive → Share → "Anyone with link can view" → Copy link → paste below.</div><div class="section"><div class="section-head">End-term exam pattern</div><div class="exam-grid"><div class="exam-item"><div class="exam-item-label">Exam type</div><div class="exam-item-val">Written</div></div><div class="exam-item"><div class="exam-item-label">Duration</div><div class="exam-item-val">2 hrs</div></div><div class="exam-item"><div class="exam-item-label">Total marks</div><div class="exam-item-val">50</div></div><div class="exam-item"><div class="exam-item-label">Exam date</div><div class="exam-item-val" style="font-size:12px">23 May 2026 (Saturday)</div></div><div class="exam-item full"><div class="exam-item-label">End-term exam pattern</div><div class="exam-item-val" style="font-size:13px;line-height:1.6">To be Updated</div></div></div><button class="add-resource" style="margin-top:8px" onclick="editPattern(3)">✏️ Update exam pattern</button></div><div class="section"><div class="section-head">Study material (1)</div><div id="res-list"><div class="resource-row"><div class="res-icon" style="background:#E6F1FB">📄</div><div class="res-info"><div class="res-name">Classroom Study Material</div><div class="res-meta">By AJ</div></div><a href="https://drive.google.com/drive/folders/1_Z2Q_Qgw0j_VzLxmf1cf3cY1YXNZre5Q?usp=drive_link" target="_blank" style="text-decoration:none"><button class="res-btn">Open ↗</button></a><button class="res-btn danger" onclick="removeItem(3,0,'res')">✕</button></div></div><button class="add-resource" onclick="addItem(3,'res')">+ Add study material / Google Drive link</button></div><div class="section"><div class="section-head">Past year question papers (1)</div><div id="pyq-list"><div class="resource-row"><div class="res-icon" style="background:#FAEEDA">📝</div><div class="res-info"><div class="res-name">End-Term 23-24</div><div class="res-meta">23-24 · By AJ</div></div><a href="https://drive.google.com/drive/folders/1DBHoKZ-y__MnGaBFtMMlEnQeS0qrsSxs?usp=drive_link" target="_blank" style="text-decoration:none"><button class="res-btn">Open ↗</button></a><button class="res-btn danger" onclick="removeItem(3,0,'pyq')">✕</button></div></div><button class="add-resource" onclick="addItem(3,'pyq')">+ Add PYQ / previous exam paper</button></div></div>
+    <div id="modal-content"><div class="modal-top"><div class="modal-accent" style="background:#1D9E75"></div><div style="flex:1"><div class="modal-code">Subject 2 · 2 credits</div><div class="modal-title">Data Analytics</div><div class="modal-meta-row"><span style="font-size:12px;color:var(--color-text-secondary)">Dr. O. P. Wali <button class="elink" onclick="editFaculty(2)">[edit]</button></span><span class="modal-examdate">📅 30 May 2026 (Saturday), 43 days left</span></div></div></div><div class="section"><div class="section-head">Faculty contact</div><div class="contact-row"><span class="contact-label">Email</span><span class="contact-val">opwali@iift.edu</span><button class="res-btn" onclick="editEmail(2)">✏ Edit</button></div></div><div class="sheet-info">📊 <strong>Google Sheets connected.</strong> Add a row in your sheet with the subject name, resource name, link, type (material/PYQ), and it will appear here automatically after a refresh.</div><div class="section"><div class="section-head">End-term exam pattern</div><div class="exam-grid"><div class="exam-item"><div class="exam-item-label">Exam type</div><div class="exam-item-val">Written</div></div><div class="exam-item"><div class="exam-item-label">Duration</div><div class="exam-item-val">2 hrs</div></div><div class="exam-item"><div class="exam-item-label">Total marks</div><div class="exam-item-val">50</div></div><div class="exam-item"><div class="exam-item-label">Exam date</div><div class="exam-item-val" style="font-size:12px">30 May 2026 (Saturday)</div></div><div class="exam-item full"><div class="exam-item-label">End-term exam pattern</div><div class="exam-item-val" style="font-size:13px;line-height:1.6">To be Updated</div></div></div><button class="add-resource" style="margin-top:8px" onclick="editPattern(2)">✏️ Update exam pattern</button></div><div class="section"><div class="section-head">Study material <span class="section-badge">2 total</span></div><div id="res-list"><div class="resource-row"><div class="res-icon" style="background:#E6F1FB">📄</div><div class="res-info"><div class="res-name">Classroom Study Material</div><div class="res-meta">By AJ</div><span class="res-source local">💾 Local</span></div><a href="https://drive.google.com/drive/folders/1EGMU6H-f3A1mDvWAlP0n9q8yVRXbdzGb?usp=drive_link" target="_blank" style="text-decoration:none"><button class="res-btn">Open ↗</button></a><button class="res-btn danger" onclick="removeLocalItem(2,0,'res')">✕</button></div><div class="resource-row"><div class="res-icon" style="background:#E6F1FB">📄</div><div class="res-info"><div class="res-name">Test DA from Sheet</div><div class="res-meta">By Sheet</div><span class="res-source sheet">📊 Google Sheets</span></div><a href="https://drive.google.com/drive/folders/1EGMU6H-f3A1mDvWAlP0n9q8yVRXbdzGb?usp=drive_link" target="_blank" style="text-decoration:none"><button class="res-btn">Open ↗</button></a></div></div><button class="add-resource" onclick="addLocalItem(2,'res')">+ Add manually (local only)</button></div><div class="section"><div class="section-head">Past year question papers <span class="section-badge pyq">1 total</span></div><div id="pyq-list"><div class="resource-row"><div class="res-icon" style="background:#FAEEDA">📝</div><div class="res-info"><div class="res-name">End-Term 23-24</div><div class="res-meta">23-24 · By AJ</div><span class="res-source local">💾 Local</span></div><a href="https://drive.google.com/drive/folders/1XhLXIVoUrGVoXNt8SNzf676u89eXL9dT?usp=drive_link" target="_blank" style="text-decoration:none"><button class="res-btn">Open ↗</button></a><button class="res-btn danger" onclick="removeLocalItem(2,0,'pyq')">✕</button></div></div><button class="add-resource" onclick="addLocalItem(2,'pyq')">+ Add manually (local only)</button></div></div>
   </div>
 </div>
 
 <script>
-const ACCENTS=['#378ADD','#1D9E75','#EF9F27','#7F77DD','#D85A30','#97C459','#ED93B1','#5DCAA5','#FAC775','#639922','#B5A4F4'];
-const DATA_VERSION='pgdmib_s2_v5';
+const SHEET_API = 'https://script.googleusercontent.com/macros/echo?user_content_key=AWDtjMW6Bxd2gUcX4C2ZYmq65C7xlH_X1znN71NMHjb5zB84_xlogGpNhJyg1btNHBhED482mecs7erYkh2noZrjOKo8_PnOjgEUiQiRJgAsYx6UKY8Els41iUUKSZ_UEnTMbYaj6qSj7hUpncxbMr_pECTAmxb-Lu3KVeAvbkf-FOlv0eRmOkPWi_IrWXdmsCJX5SQbUXEJVo8A3xKBfWbE4p0dRsyvEQJ2SKUJ7wwJlfeCuvX72ij6SNL-cSoi4nniBs1v_mzZUfAUw5qO2IAIsDvoPirqRQ&lib=M4YwtSiPAyeNZ8XKiL4upk-U4dPx7z1w8';
+const ACCENTS = ['#378ADD','#1D9E75','#EF9F27','#7F77DD','#D85A30','#97C459','#ED93B1','#5DCAA5','#FAC775','#639922','#B5A4F4'];
+const DATA_VERSION = 'pgdmib_s2_v6';
 
-const DEFAULT_SUBJECTS=[
+// ── BASE SUBJECT DATA (faculty, exam dates, patterns) ──────────────────────
+const DEFAULT_SUBJECTS = [
   {id:1,sno:1,name:"Financial Management",credits:3,faculty:"Dr. Miklesh Yadav",email:"miklesh@iift.edu",examDate:"24 May 2026 (Sunday)",
-   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1sLOVAtK7aV4XTCWeTDYcUeyM6uHgeNCj?usp=drive_link",meta:"By AJ"}],pyqs:[],
+   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1sLOVAtK7aV4XTCWeTDYcUeyM6uHgeNCj?usp=drive_link",meta:"By AJ",source:"local"}],pyqs:[],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"To be Updated"}},
   {id:2,sno:2,name:"Data Analytics",credits:2,faculty:"Dr. O. P. Wali",email:"opwali@iift.edu",examDate:"30 May 2026 (Saturday)",
-   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1EGMU6H-f3A1mDvWAlP0n9q8yVRXbdzGb?usp=drive_link",meta:"By AJ"}],
-   pyqs:[{name:"End-Term 23-24",link:"https://drive.google.com/drive/folders/1XhLXIVoUrGVoXNt8SNzf676u89eXL9dT?usp=drive_link",meta:"23-24 · By AJ"}],
+   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1EGMU6H-f3A1mDvWAlP0n9q8yVRXbdzGb?usp=drive_link",meta:"By AJ",source:"local"}],
+   pyqs:[{name:"End-Term 23-24",link:"https://drive.google.com/drive/folders/1XhLXIVoUrGVoXNt8SNzf676u89eXL9dT?usp=drive_link",meta:"23-24 · By AJ",source:"local"}],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"To be Updated"}},
   {id:3,sno:3,name:"International Economics",credits:2,faculty:"Dr. Biswajit Nag",email:"biswajit@iift.edu",examDate:"23 May 2026 (Saturday)",
-   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1_Z2Q_Qgw0j_VzLxmf1cf3cY1YXNZre5Q?usp=drive_link",meta:"By AJ"}],
-   pyqs:[{name:"End-Term 23-24",link:"https://drive.google.com/drive/folders/1DBHoKZ-y__MnGaBFtMMlEnQeS0qrsSxs?usp=drive_link",meta:"23-24 · By AJ"}],
+   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1_Z2Q_Qgw0j_VzLxmf1cf3cY1YXNZre5Q?usp=drive_link",meta:"By AJ",source:"local"}],
+   pyqs:[{name:"End-Term 23-24",link:"https://drive.google.com/drive/folders/1DBHoKZ-y__MnGaBFtMMlEnQeS0qrsSxs?usp=drive_link",meta:"23-24 · By AJ",source:"local"}],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"To be Updated"}},
   {id:4,sno:4,name:"Strategic Management",credits:3,faculty:"Mr. Sandeep Nagpal",email:"sandeep_nagpal@hotmail.com",examDate:"17 May 2026 (Sunday)",
-   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1gxp6vKU1m0hBOfWwHHf_lhIYamobKgvx?usp=drive_link",meta:"By AJ"}],pyqs:[],
+   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1gxp6vKU1m0hBOfWwHHf_lhIYamobKgvx?usp=drive_link",meta:"By AJ",source:"local"}],pyqs:[],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"10 marks MCQ. A case with 4 questions each of 5 marks (pick 1 case out of 2). 4 out of 6 questions of 5 marks (covering each module). DO NOT WRITE THESIS"}},
   {id:5,sno:5,name:"Human Resource Management",credits:2,faculty:"Dr. Priyanka Jaiswal",email:"priyanka@iift.edu",examDate:"10 May 2026 (Sunday)",
-   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1HTxO8DGPeSin6ToLgl0JFv7rt6ha9nhA?usp=drive_link",meta:"By AJ"}],pyqs:[],
+   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1HTxO8DGPeSin6ToLgl0JFv7rt6ha9nhA?usp=drive_link",meta:"By AJ",source:"local"}],pyqs:[],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"To be Updated"}},
   {id:6,sno:6,name:"Supply Chain Management",credits:3,faculty:"Dr. Sonu Verma",email:"sonuverma@iift.edu",examDate:"31 May 2026 (Sunday)",
-   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/u/1/folders/19r-G267AS-FHsIchTtzAEymr9ta8NYBK",meta:"By AJ"}],
-   pyqs:[{name:"End-Term 24-25",link:"https://drive.google.com/drive/folders/1UhU1iEt3k3RZEeowXH2gdbT-a3pPs4fA?usp=drive_link",meta:"24-25 · By AJ"}],
+   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/u/1/folders/19r-G267AS-FHsIchTtzAEymr9ta8NYBK",meta:"By AJ",source:"local"}],
+   pyqs:[{name:"End-Term 24-25",link:"https://drive.google.com/drive/folders/1UhU1iEt3k3RZEeowXH2gdbT-a3pPs4fA?usp=drive_link",meta:"24-25 · By AJ",source:"local"}],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"To be Updated"}},
   {id:7,sno:7,name:"Business Research Methods",credits:2,faculty:"Dr. Pradeep Pai",email:"pradeep.pai@acequants.in",examDate:"16 May 2026 (Saturday)",
-   resources:[{name:"Classroom Material",link:"https://drive.google.com/drive/folders/1aQc07CpGFZMv75LGOQTpoFxVfqa0nHSU?usp=drive_link",meta:"By AJ"}],
-   pyqs:[{name:"End-Term 23-24",link:"https://drive.google.com/drive/folders/15OCynbQiaAJ3wLmkDDJ604iYFhX1wGcl?usp=drive_link",meta:"23-24 · By AJ"}],
+   resources:[{name:"Classroom Material",link:"https://drive.google.com/drive/folders/1aQc07CpGFZMv75LGOQTpoFxVfqa0nHSU?usp=drive_link",meta:"By AJ",source:"local"}],
+   pyqs:[{name:"End-Term 23-24",link:"https://drive.google.com/drive/folders/15OCynbQiaAJ3wLmkDDJ604iYFhX1wGcl?usp=drive_link",meta:"23-24 · By AJ",source:"local"}],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"Two Parts - Theory and Numerical. Theory: scale of management (suggest the scale, 2-3 bullet points on limitations/adv/disadv/area of application), Common method bias. Numerical: similar to midterm (find critical value, conclude if beyond or less than critical value). Output given — find null and alternate hypothesis, pinpoint level of significance (based on critical thinking)."}},
   {id:8,sno:8,name:"International Marketing Management",credits:2,faculty:"Mr. Kumar Biswas",email:"mail@kumarbiswas.com",examDate:"09 May 2026 (Saturday)",
-   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1LixhG-uZaAZEG9oCn3Ne-ambQIAqjEmS?usp=drive_link",meta:"By AJ"}],
-   pyqs:[{name:"End-Term 23-24",link:"https://drive.google.com/drive/folders/1vil3GKr9PsgkJ-Vm4tSTGYm9dUsgbwgD?usp=drive_link",meta:"23-24 · By AJ"}],
+   resources:[{name:"Classroom Study Material",link:"https://drive.google.com/drive/folders/1LixhG-uZaAZEG9oCn3Ne-ambQIAqjEmS?usp=drive_link",meta:"By AJ",source:"local"}],
+   pyqs:[{name:"End-Term 23-24",link:"https://drive.google.com/drive/folders/1vil3GKr9PsgkJ-Vm4tSTGYm9dUsgbwgD?usp=drive_link",meta:"23-24 · By AJ",source:"local"}],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"To be Updated"}},
   {id:9,sno:9,name:"Spanish",credits:2,faculty:"Ms. Srishti Dangayach",email:"",examDate:"17 May 2026 (Sunday)",
-   resources:[{name:"Classroom Study Material",link:"https://classroom.google.com",meta:"By AJ"}],pyqs:[],
+   resources:[{name:"Classroom Study Material",link:"https://classroom.google.com",meta:"By AJ",source:"local"}],pyqs:[],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"Pg 162 - 1 (Pronombres); 164 - 4.1 (Prepositions); 165 - 5 (Verbo); 166 - 5.2 (gustar); 167 - 5.3 a) (Irregular verbs); Present perfect + Near Future; 168 - 5.4 (Reflexive verbs)"}},
   {id:10,sno:10,name:"German",credits:2,faculty:"Prof. TBD",email:"",examDate:"17 May 2026 (Sunday)",
    resources:[],pyqs:[],
    examPattern:{type:"Written",duration:"2 hrs",marks:"50",pattern:"To be Updated"}}
 ];
 
-let subjects=JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
-try{
-  const saved=localStorage.getItem(DATA_VERSION);
-  if(saved){
-    const local=JSON.parse(saved);
-    subjects=subjects.map(s=>{
-      const l=local.find(x=>x.id===s.id);
-      if(!l)return s;
-      return{...s,
-        faculty:(l.faculty&&l.faculty!=='Prof. TBD')?l.faculty:s.faculty,
-        email:l.email||s.email,
-        resources:(l.resources&&l.resources.length>=s.resources.length)?l.resources:s.resources,
-        pyqs:(l.pyqs&&l.pyqs.length>=s.pyqs.length)?l.pyqs:s.pyqs,
-        examPattern:(l.examPattern&&l.examPattern.pattern&&l.examPattern.pattern!==s.examPattern.pattern)?l.examPattern:s.examPattern
-      };
-    });
-  }
-}catch(e){}
+// Subject name → id mapping for matching sheet rows
+const SUBJECT_NAME_MAP = {};
+DEFAULT_SUBJECTS.forEach(s => {
+  SUBJECT_NAME_MAP[s.name.toLowerCase().trim()] = s.id;
+  // also map short common variants
+});
 
-let filter='all';
+let subjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
+let sheetResources = []; // entries fetched from Google Sheet
+let filter = 'all';
+let lastSynced = null;
 
-function save(){try{localStorage.setItem(DATA_VERSION,JSON.stringify(subjects));}catch(e){}updateStats();}
-
-function updateStats(){
-  const total=subjects.reduce((a,s)=>a+s.resources.length+s.pyqs.length,0);
-  const complete=subjects.filter(s=>s.resources.length>0&&s.pyqs.length>0).length;
-  document.getElementById('s-subjects').textContent=subjects.length;
-  document.getElementById('s-resources').textContent=total;
-  document.getElementById('s-complete').textContent=Math.round(complete/subjects.length*100)+'%';
+// ── GOOGLE SHEET FETCH ──────────────────────────────────────────────────────
+function setSyncStatus(state, msg) {
+  const dot = document.getElementById('sync-dot');
+  const txt = document.getElementById('sync-status');
+  dot.className = 'sync-dot ' + state;
+  txt.textContent = msg;
 }
 
-function setFilter(f,btn){
-  filter=f;
-  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+async function fetchFromSheet() {
+  setSyncStatus('syncing', 'Fetching from Google Sheets...');
+  try {
+    const res = await fetch(SHEET_API, { method: 'GET' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    const data = await res.json();
+
+    // Supports:
+    // A) [...]
+    // B) { entries:[...] }
+    if (Array.isArray(data)) {
+      sheetResources = data;
+    } else if (data && Array.isArray(data.entries)) {
+      sheetResources = data.entries;
+    } else {
+      throw new Error('Unexpected response format');
+    }
+
+    mergeSheetData();
+    lastSynced = new Date();
+
+    const t = lastSynced.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    setSyncStatus(
+      'ok',
+      'Synced from Google Sheets · Last updated ' +
+      t +
+      ' · ' +
+      sheetResources.length +
+      ' entries'
+    );
+
+    updateStats();
+    renderCards();
+
+    if (document.getElementById('overlay').classList.contains('open')) {
+      const openId = parseInt(
+        document.querySelector('[data-open-id]')?.dataset?.openId || '0'
+      );
+      if (openId) openSubject(openId);
+    }
+
+  } catch (e) {
+    setSyncStatus(
+      'err',
+      'Could not reach Google Sheets — showing local data. ' + e.message
+    );
+    renderCards();
+  }
+}
+
+// Merge sheet entries into subjects array
+function mergeSheetData() {
+  // Reset to defaults first (clear previous sheet entries)
+  subjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
+
+  // Apply local localStorage overrides (faculty edits, email, pattern edits)
+  try {
+    const saved = localStorage.getItem(DATA_VERSION);
+    if (saved) {
+      const local = JSON.parse(saved);
+      subjects = subjects.map(s => {
+        const l = local.find(x => x.id === s.id);
+        if (!l) return s;
+        return { ...s,
+          faculty: (l.faculty && l.faculty !== 'Prof. TBD') ? l.faculty : s.faculty,
+          email: l.email || s.email,
+          examPattern: (l.examPattern && l.examPattern.pattern && l.examPattern.pattern !== s.examPattern.pattern) ? l.examPattern : s.examPattern
+        };
+      });
+    }
+  } catch(e) {}
+
+  // Now inject sheet entries on top
+  sheetResources.forEach(entry => {
+
+  // Accept both Sheet headers and lowercase keys
+  const subjectRaw =
+    entry.Subject ||
+    entry.subject ||
+    '';
+
+  const typeRaw =
+    entry.Type ||
+    entry.type ||
+    'Material';
+
+  const titleRaw =
+    entry.Title ||
+    entry.title ||
+    entry.Name ||
+    entry.name ||
+    'Untitled';
+
+  const linkRaw =
+    entry.Link ||
+    entry.link ||
+    entry.URL ||
+    entry.url ||
+    '';
+
+  const addedByRaw =
+    entry['Added By'] ||
+    entry.addedBy ||
+    entry.added_by ||
+    'Sheet';
+
+  const subjectKey = String(subjectRaw).toLowerCase().trim();
+
+  let sid = SUBJECT_NAME_MAP[subjectKey];
+
+  if (!sid) {
+    for (const s of subjects) {
+      const nm = s.name.toLowerCase();
+      if (subjectKey.includes(nm) || nm.includes(subjectKey)) {
+        sid = s.id;
+        break;
+      }
+    }
+  }
+
+  if (!sid) return;
+
+  const subj = subjects.find(x => x.id === sid);
+  if (!subj) return;
+
+  const item = {
+    name: titleRaw,
+    link: linkRaw,
+    meta: 'By ' + addedByRaw,
+    source: 'sheet'
+  };
+
+  const kind = String(typeRaw).toLowerCase();
+
+  if (kind === 'pyq') {
+    if (!subj.pyqs.find(r => r.name === item.name && r.link === item.link)) {
+      subj.pyqs.push(item);
+    }
+  } else {
+    if (!subj.resources.find(r => r.name === item.name && r.link === item.link)) {
+      subj.resources.push(item);
+    }
+  }
+
+});
+}
+
+// ── LOCAL SAVE (for faculty, email, exam pattern edits only) ───────────────
+function saveLocal() {
+  try {
+    const toSave = subjects.map(s => ({
+      id: s.id,
+      faculty: s.faculty,
+      email: s.email,
+      examPattern: s.examPattern
+    }));
+    localStorage.setItem(DATA_VERSION, JSON.stringify(toSave));
+  } catch(e) {}
+  updateStats();
+}
+
+function updateStats() {
+  const total = subjects.reduce((a,s) => a + s.resources.length + s.pyqs.length, 0);
+  const complete = subjects.filter(s => s.resources.length > 0 && s.pyqs.length > 0).length;
+  document.getElementById('s-subjects').textContent = subjects.length;
+  document.getElementById('s-resources').textContent = total;
+  document.getElementById('s-complete').textContent = Math.round(complete / subjects.length * 100) + '%';
+}
+
+function setFilter(f, btn) {
+  filter = f;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderCards();
 }
 
-function daysUntil(ds){
-  const m={Jan:'01',Feb:'02',Mar:'03',Apr:'04',May:'05',Jun:'06',Jul:'07',Aug:'08',Sep:'09',Oct:'10',Nov:'11',Dec:'12'};
-  const p=ds.match(/(\d+)\s(\w+)\s(\d+)/);
-  if(!p)return null;
-  const d=new Date(p[3]+'-'+m[p[2]]+'-'+p[1].padStart(2,'0'));
-  return Math.ceil((d-new Date())/86400000);
+function daysUntil(ds) {
+  const m = {Jan:'01',Feb:'02',Mar:'03',Apr:'04',May:'05',Jun:'06',Jul:'07',Aug:'08',Sep:'09',Oct:'10',Nov:'11',Dec:'12'};
+  const p = ds.match(/(\d+)\s(\w+)\s(\d+)/);
+  if (!p) return null;
+  const d = new Date(p[3] + '-' + m[p[2]] + '-' + p[1].padStart(2,'0'));
+  return Math.ceil((d - new Date()) / 86400000);
 }
 
-function renderCards(){
-  const q=(document.getElementById('search').value||'').toLowerCase();
-  const grid=document.getElementById('subjects-grid');
-  const filtered=subjects.filter(s=>{
-    const mq=!q||s.name.toLowerCase().includes(q)||s.faculty.toLowerCase().includes(q);
-    const mf=filter==='all'||(filter==='pending'&&s.resources.length===0)||(filter==='ready'&&s.resources.length>0);
-    return mq&&mf;
+function renderCards() {
+  const q = (document.getElementById('search').value || '').toLowerCase();
+  const grid = document.getElementById('subjects-grid');
+  const filtered = subjects.filter(s => {
+    const mq = !q || s.name.toLowerCase().includes(q) || s.faculty.toLowerCase().includes(q);
+    const mf = filter === 'all' || (filter === 'pending' && s.resources.length === 0) || (filter === 'ready' && s.resources.length > 0);
+    return mq && mf;
   });
-  grid.innerHTML=filtered.map(s=>{
-    const ci=(s.id-1)%ACCENTS.length;
-    const prog=Math.min(100,s.resources.length*20+s.pyqs.length*15+(s.examPattern.pattern?5:0));
-    const pfill=prog===0?'#D3D1C7':ACCENTS[ci];
-    const days=daysUntil(s.examDate);
-    const urgentClass=days!==null&&days>=0&&days<=7?' class="urgent"':'';
-    const countdownTxt=days===null?'':days<0?' (exam passed)':days===0?' (today!)':', '+days+' days left';
-    return '<div class="scard" onclick="openSubject('+s.id+')">' +
-      '<div class="scard-accent" style="background:'+ACCENTS[ci]+'"></div>' +
+  grid.innerHTML = filtered.map(s => {
+    const ci = (s.id - 1) % ACCENTS.length;
+    const prog = Math.min(100, s.resources.length * 20 + s.pyqs.length * 15 + (s.examPattern.pattern ? 5 : 0));
+    const pfill = prog === 0 ? '#D3D1C7' : ACCENTS[ci];
+    const days = daysUntil(s.examDate);
+    const urgentClass = days !== null && days >= 0 && days <= 7 ? ' class="urgent"' : '';
+    const countdownTxt = days === null ? '' : days < 0 ? ' (exam passed)' : days === 0 ? ' (today!)' : ', ' + days + ' days left';
+    const sheetCount = s.resources.filter(r=>r.source==='sheet').length + s.pyqs.filter(r=>r.source==='sheet').length;
+    return '<div class="scard" onclick="openSubject(' + s.id + ')">' +
+      '<div class="scard-accent" style="background:' + ACCENTS[ci] + '"></div>' +
       '<div class="scard-head">' +
         '<div class="scard-top">' +
-          '<div class="scard-code">Subject '+s.sno+'</div>' +
-          '<span class="credit-badge">'+s.credits+' credit'+(s.credits>1?'s':'')+'</span>' +
+          '<div class="scard-code">Subject ' + s.sno + '</div>' +
+          '<span class="credit-badge">' + s.credits + ' credit' + (s.credits > 1 ? 's' : '') + '</span>' +
         '</div>' +
-        '<div class="scard-name">'+s.name+'</div>' +
-        '<div class="scard-faculty">'+s.faculty+'</div>' +
-        '<div class="scard-examdate"'+urgentClass+'>&#x1F4C5; '+s.examDate+countdownTxt+'</div>' +
+        '<div class="scard-name">' + s.name + '</div>' +
+        '<div class="scard-faculty">' + s.faculty + '</div>' +
+        '<div class="scard-examdate"' + urgentClass + '>&#x1F4C5; ' + s.examDate + countdownTxt + '</div>' +
       '</div>' +
       '<div class="scard-body">' +
-        '<span class="tag tag-blue '+(s.resources.length===0?'empty':'')+'">&#x1F4C4; '+s.resources.length+' material'+(s.resources.length!==1?'s':'')+'</span>' +
-        '<span class="tag tag-amber '+(s.pyqs.length===0?'empty':'')+'">&#x1F4DD; '+s.pyqs.length+' PYQ'+(s.pyqs.length!==1?'s':'')+'</span>' +
-        '<span class="tag tag-green">&#x1F4CB; Pattern</span>' +
+        '<span class="tag tag-blue ' + (s.resources.length === 0 ? 'empty' : '') + '">&#x1F4C4; ' + s.resources.length + ' material' + (s.resources.length !== 1 ? 's' : '') + '</span>' +
+        '<span class="tag tag-amber ' + (s.pyqs.length === 0 ? 'empty' : '') + '">&#x1F4DD; ' + s.pyqs.length + ' PYQ' + (s.pyqs.length !== 1 ? 's' : '') + '</span>' +
+        (sheetCount > 0 ? '<span class="tag tag-green">&#x1F4CA; ' + sheetCount + ' from sheet</span>' : '') +
       '</div>' +
       '<div class="scard-foot">' +
-        '<span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">'+prog+'%</span>' +
-        '<div class="prog-bar"><div class="prog-fill" style="width:'+prog+'%;background:'+pfill+'"></div></div>' +
+        '<span style="font-size:11px;color:var(--color-text-tertiary);min-width:28px">' + prog + '%</span>' +
+        '<div class="prog-bar"><div class="prog-fill" style="width:' + prog + '%;background:' + pfill + '"></div></div>' +
       '</div>' +
     '</div>';
   }).join('');
 }
 
-function renderResList(s,kind){
-  const arr=kind==='res'?s.resources:s.pyqs;
-  if(!arr.length)return '<div class="empty-state">Nothing added yet.</div>';
-  return arr.map((r,i)=>
+function renderResList(s, kind) {
+  const arr = kind === 'res' ? s.resources : s.pyqs;
+  if (!arr.length) return '<div class="empty-state">Nothing added yet — add a row in Google Sheets or use the button below.</div>';
+  return arr.map((r, i) =>
     '<div class="resource-row">' +
-      '<div class="res-icon" style="background:'+(kind==='res'?'#E6F1FB':'#FAEEDA')+'">'+(kind==='res'?'&#x1F4C4;':'&#x1F4DD;')+'</div>' +
-      '<div class="res-info"><div class="res-name">'+r.name+'</div><div class="res-meta">'+(r.meta||'')+'</div></div>' +
-      (r.link?'<a href="'+r.link+'" target="_blank" style="text-decoration:none"><button class="res-btn">Open &#x2197;</button></a>':'') +
-      '<button class="res-btn danger" onclick="removeItem('+s.id+','+i+',\''+kind+'\')">&#x2715;</button>' +
+      '<div class="res-icon" style="background:' + (kind === 'res' ? '#E6F1FB' : '#FAEEDA') + '">' + (kind === 'res' ? '&#x1F4C4;' : '&#x1F4DD;') + '</div>' +
+      '<div class="res-info">' +
+        '<div class="res-name">' + r.name + '</div>' +
+        '<div class="res-meta">' + (r.meta || '') + '</div>' +
+        '<span class="res-source ' + (r.source === 'sheet' ? 'sheet' : 'local') + '">' + (r.source === 'sheet' ? '&#x1F4CA; Google Sheets' : '&#x1F4BE; Local') + '</span>' +
+      '</div>' +
+      (r.link ? '<a href="' + r.link + '" target="_blank" style="text-decoration:none"><button class="res-btn">Open &#x2197;</button></a>' : '') +
+      (r.source !== 'sheet' ? '<button class="res-btn danger" onclick="removeLocalItem(' + s.id + ',' + i + ',\'' + kind + '\')">&#x2715;</button>' : '') +
     '</div>'
   ).join('');
 }
 
-function openSubject(id){
-  const s=subjects.find(x=>x.id===id);
-  const ci=(id-1)%ACCENTS.length;
-  const days=daysUntil(s.examDate);
-  const urg=days!==null&&days>=0&&days<=7;
-  const countdownTxt=days===null?'':days<0?' (exam passed)':days===0?' (today!)':', '+days+' days left';
+function openSubject(id) {
+  const s = subjects.find(x => x.id === id);
+  const ci = (id - 1) % ACCENTS.length;
+  const days = daysUntil(s.examDate);
+  const urg = days !== null && days >= 0 && days <= 7;
+  const countdownTxt = days === null ? '' : days < 0 ? ' (exam passed)' : days === 0 ? ' (today!)' : ', ' + days + ' days left';
 
-  document.getElementById('modal-content').innerHTML=
+  const modalEl = document.getElementById('modal');
+  modalEl.dataset.openId = id;
+
+  document.getElementById('modal-content').innerHTML =
     '<div class="modal-top">' +
-      '<div class="modal-accent" style="background:'+ACCENTS[ci]+'"></div>' +
+      '<div class="modal-accent" style="background:' + ACCENTS[ci] + '"></div>' +
       '<div style="flex:1">' +
-        '<div class="modal-code">Subject '+s.sno+' &middot; '+s.credits+' credit'+(s.credits>1?'s':'')+'</div>' +
-        '<div class="modal-title">'+s.name+'</div>' +
+        '<div class="modal-code">Subject ' + s.sno + ' &middot; ' + s.credits + ' credit' + (s.credits > 1 ? 's' : '') + '</div>' +
+        '<div class="modal-title">' + s.name + '</div>' +
         '<div class="modal-meta-row">' +
-          '<span style="font-size:12px;color:var(--color-text-secondary)">'+s.faculty+' <button class="elink" onclick="editFaculty('+id+')">[edit]</button></span>' +
-          '<span class="modal-examdate'+(urg?' urgent':'')+'">&#x1F4C5; '+s.examDate+countdownTxt+'</span>' +
+          '<span style="font-size:12px;color:var(--color-text-secondary)">' + s.faculty + ' <button class="elink" onclick="editFaculty(' + id + ')">[edit]</button></span>' +
+          '<span class="modal-examdate' + (urg ? ' urgent' : '') + '">&#x1F4C5; ' + s.examDate + countdownTxt + '</span>' +
         '</div>' +
       '</div>' +
     '</div>' +
@@ -306,94 +506,153 @@ function openSubject(id){
       '<div class="section-head">Faculty contact</div>' +
       '<div class="contact-row">' +
         '<span class="contact-label">Email</span>' +
-        (s.email
-          ?'<span class="contact-val">'+s.email+'</span>'
-          :'<span class="contact-val empty">Not added yet</span>') +
-        '<button class="res-btn" onclick="editEmail('+id+')">&#x270F; Edit</button>' +
+        (s.email ? '<span class="contact-val">' + s.email + '</span>' : '<span class="contact-val empty">Not added yet</span>') +
+        '<button class="res-btn" onclick="editEmail(' + id + ')">&#x270F; Edit</button>' +
       '</div>' +
     '</div>' +
 
-    '<div class="how-to"><strong>How to add material:</strong> Upload PDF to Google Drive &rarr; Share &rarr; "Anyone with link can view" &rarr; Copy link &rarr; paste below.</div>' +
+    '<div class="sheet-info">&#x1F4CA; <strong>Google Sheets connected.</strong> Add a row in your sheet with the subject name, resource name, link, type (material/PYQ), and it will appear here automatically after a refresh.</div>' +
 
     '<div class="section">' +
       '<div class="section-head">End-term exam pattern</div>' +
       '<div class="exam-grid">' +
-        '<div class="exam-item"><div class="exam-item-label">Exam type</div><div class="exam-item-val">'+s.examPattern.type+'</div></div>' +
-        '<div class="exam-item"><div class="exam-item-label">Duration</div><div class="exam-item-val">'+s.examPattern.duration+'</div></div>' +
-        '<div class="exam-item"><div class="exam-item-label">Total marks</div><div class="exam-item-val">'+s.examPattern.marks+'</div></div>' +
-        '<div class="exam-item"><div class="exam-item-label">Exam date</div><div class="exam-item-val'+(urg?' urgent':'')+'" style="font-size:12px">'+s.examDate+'</div></div>' +
-        '<div class="exam-item full"><div class="exam-item-label">End-term exam pattern</div><div class="exam-item-val" style="font-size:13px;line-height:1.6">'+s.examPattern.pattern+'</div></div>' +
+        '<div class="exam-item"><div class="exam-item-label">Exam type</div><div class="exam-item-val">' + s.examPattern.type + '</div></div>' +
+        '<div class="exam-item"><div class="exam-item-label">Duration</div><div class="exam-item-val">' + s.examPattern.duration + '</div></div>' +
+        '<div class="exam-item"><div class="exam-item-label">Total marks</div><div class="exam-item-val">' + s.examPattern.marks + '</div></div>' +
+        '<div class="exam-item"><div class="exam-item-label">Exam date</div><div class="exam-item-val' + (urg ? ' urgent' : '') + '" style="font-size:12px">' + s.examDate + '</div></div>' +
+        '<div class="exam-item full"><div class="exam-item-label">End-term exam pattern</div><div class="exam-item-val" style="font-size:13px;line-height:1.6">' + s.examPattern.pattern + '</div></div>' +
       '</div>' +
-      '<button class="add-resource" style="margin-top:8px" onclick="editPattern('+id+')">&#x270F;&#xFE0F; Update exam pattern</button>' +
+      '<button class="add-resource" style="margin-top:8px" onclick="editPattern(' + id + ')">&#x270F;&#xFE0F; Update exam pattern</button>' +
     '</div>' +
 
     '<div class="section">' +
-      '<div class="section-head">Study material ('+s.resources.length+')</div>' +
-      '<div id="res-list">'+renderResList(s,'res')+'</div>' +
-      '<button class="add-resource" onclick="addItem('+id+',\'res\')">+ Add study material / Google Drive link</button>' +
+      '<div class="section-head">Study material <span class="section-badge">' + s.resources.length + ' total</span></div>' +
+      '<div id="res-list">' + renderResList(s, 'res') + '</div>' +
+      '<button class="add-resource" onclick="addLocalItem(' + id + ',\'res\')">+ Add manually (local only)</button>' +
     '</div>' +
 
     '<div class="section">' +
-      '<div class="section-head">Past year question papers ('+s.pyqs.length+')</div>' +
-      '<div id="pyq-list">'+renderResList(s,'pyq')+'</div>' +
-      '<button class="add-resource" onclick="addItem('+id+',\'pyq\')">+ Add PYQ / previous exam paper</button>' +
+      '<div class="section-head">Past year question papers <span class="section-badge pyq">' + s.pyqs.length + ' total</span></div>' +
+      '<div id="pyq-list">' + renderResList(s, 'pyq') + '</div>' +
+      '<button class="add-resource" onclick="addLocalItem(' + id + ',\'pyq\')">+ Add manually (local only)</button>' +
     '</div>';
 
   document.getElementById('overlay').classList.add('open');
 }
 
-function addItem(id,kind){
-  const isRes=kind==='res';
-  const name=prompt(isRes?'Material name (e.g. "Unit 2 Notes"):':'PYQ name (e.g. "End-term 2023-24"):');
-  if(!name)return;
-  const link=prompt('Paste Google Drive link (or press OK to skip):');
-  const by=prompt('Added by:')||'CR';
-  const s=subjects.find(x=>x.id===id);
-  if(isRes){const topic=prompt('Topic / unit (optional):')||'';s.resources.push({name,link:link||'',meta:'By '+by+(topic?' \u00b7 '+topic:'')});}
-  else{const year=prompt('Year (e.g. 2023-24):')||'\u2013';s.pyqs.push({name,link:link||'',meta:year+' \u00b7 By '+by});}
-  save();openSubject(id);renderCards();
+// ── LOCAL ADD (fallback when not using sheet) ──────────────────────────────
+function addLocalItem(id, kind) {
+  const isRes = kind === 'res';
+  const name = prompt(isRes ? 'Material name:' : 'PYQ name (e.g. "End-term 2023-24"):');
+  if (!name) return;
+  const link = prompt('Paste Google Drive link (or press OK to skip):');
+  const by = prompt('Added by:') || 'CR';
+  const s = subjects.find(x => x.id === id);
+  if (isRes) {
+    const topic = prompt('Topic / unit (optional):') || '';
+    s.resources.push({ name, link: link || '', meta: 'By ' + by + (topic ? ' \u00b7 ' + topic : ''), source: 'local' });
+  } else {
+    const year = prompt('Year (e.g. 2023-24):') || '\u2013';
+    s.pyqs.push({ name, link: link || '', meta: year + ' \u00b7 By ' + by, source: 'local' });
+  }
+  // persist local additions separately
+  try {
+    const key = 'pgdmib_local_items_v1';
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push({ subjectId: id, kind, name, link: link || '', meta: s[kind === 'res' ? 'resources' : 'pyqs'].slice(-1)[0].meta });
+    localStorage.setItem(key, JSON.stringify(existing));
+  } catch(e) {}
+  updateStats();
+  openSubject(id);
+  renderCards();
 }
 
-function removeItem(id,i,kind){
-  if(!confirm('Remove this item?'))return;
-  const s=subjects.find(x=>x.id===id);
-  if(kind==='res')s.resources.splice(i,1);else s.pyqs.splice(i,1);
-  save();openSubject(id);renderCards();
+function removeLocalItem(id, i, kind) {
+  if (!confirm('Remove this item?')) return;
+  const s = subjects.find(x => x.id === id);
+  if (kind === 'res') s.resources.splice(i, 1);
+  else s.pyqs.splice(i, 1);
+  updateStats();
+  openSubject(id);
+  renderCards();
 }
 
-function editFaculty(id){
-  const s=subjects.find(x=>x.id===id);
-  const n=prompt('Faculty name:',s.faculty);
-  if(n){s.faculty=n;save();openSubject(id);renderCards();}
+// Re-apply saved local items on top of sheet data
+function applyLocalItems() {
+  try {
+    const items = JSON.parse(localStorage.getItem('pgdmib_local_items_v1') || '[]');
+    items.forEach(entry => {
+      const s = subjects.find(x => x.id === entry.subjectId);
+      if (!s) return;
+      const arr = entry.kind === 'res' ? s.resources : s.pyqs;
+      if (!arr.find(r => r.name === entry.name && r.link === entry.link)) {
+        arr.push({ name: entry.name, link: entry.link, meta: entry.meta, source: 'local' });
+      }
+    });
+  } catch(e) {}
 }
 
-function editEmail(id){
-  const s=subjects.find(x=>x.id===id);
-  const e=prompt('Faculty email ID:',s.email||'');
-  if(e!==null){s.email=e;save();openSubject(id);}
+function editFaculty(id) {
+  const s = subjects.find(x => x.id === id);
+  const n = prompt('Faculty name:', s.faculty);
+  if (n) { s.faculty = n; saveLocal(); openSubject(id); renderCards(); }
 }
 
-function editPattern(id){
-  const s=subjects.find(x=>x.id===id);
-  const ep=s.examPattern;
-  const type=prompt('Exam type:',ep.type);if(type===null)return;
-  const dur=prompt('Duration:',ep.duration);if(dur===null)return;
-  const marks=prompt('Total marks:',ep.marks);if(marks===null)return;
-  const pattern=prompt('End-term exam pattern:',ep.pattern);if(pattern===null)return;
-  s.examPattern={type,duration:dur,marks,pattern};
-  save();openSubject(id);
+function editEmail(id) {
+  const s = subjects.find(x => x.id === id);
+  const e = prompt('Faculty email ID:', s.email || '');
+  if (e !== null) { s.email = e; saveLocal(); openSubject(id); }
 }
 
-function editAnn(){
-  const t=prompt('Edit announcement:',document.getElementById('ann-text').textContent);
-  if(t)document.getElementById('ann-text').textContent=t;
+function editPattern(id) {
+  const s = subjects.find(x => x.id === id);
+  const ep = s.examPattern;
+  const type = prompt('Exam type:', ep.type); if (type === null) return;
+  const dur = prompt('Duration:', ep.duration); if (dur === null) return;
+  const marks = prompt('Total marks:', ep.marks); if (marks === null) return;
+  const pattern = prompt('End-term exam pattern:', ep.pattern); if (pattern === null) return;
+  s.examPattern = { type, duration: dur, marks, pattern };
+  saveLocal(); openSubject(id);
 }
 
-function closeOverlay(){document.getElementById('overlay').classList.remove('open');}
-function maybeClose(e){if(e.target===document.getElementById('overlay'))closeOverlay();}
+function editAnn() {
+  const t = prompt('Edit announcement:', document.getElementById('ann-text').textContent);
+  if (t) document.getElementById('ann-text').textContent = t;
+}
 
+function closeOverlay() { document.getElementById('overlay').classList.remove('open'); }
+function maybeClose(e) { if (e.target === document.getElementById('overlay')) closeOverlay(); }
+
+// ── BOOT ────────────────────────────────────────────────────────────────────
+// 1. Apply local edits (faculty/email/pattern)
+try {
+  const saved = localStorage.getItem(DATA_VERSION);
+  if (saved) {
+    const local = JSON.parse(saved);
+    subjects = subjects.map(s => {
+      const l = local.find(x => x.id === s.id);
+      if (!l) return s;
+      return { ...s,
+        faculty: (l.faculty && l.faculty !== 'Prof. TBD') ? l.faculty : s.faculty,
+        email: l.email || s.email,
+        examPattern: (l.examPattern && l.examPattern.pattern && l.examPattern.pattern !== s.examPattern.pattern) ? l.examPattern : s.examPattern
+      };
+    });
+  }
+} catch(e) {}
+
+// 2. Apply manually added local items
+applyLocalItems();
+
+// 3. Render immediately with local data
 updateStats();
 renderCards();
+
+// 4. Then fetch sheet data in background
+fetchFromSheet();
+
+// 5. Auto-refresh every 5 minutes
+setInterval(fetchFromSheet, 5 * 60 * 1000);
 </script>
 
 
